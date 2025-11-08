@@ -11,4 +11,6 @@
 - hosts: servidores_bd
   become: true
   roles:
-   - role: mariadb
+   - mariadb
+   - biblioteca
+

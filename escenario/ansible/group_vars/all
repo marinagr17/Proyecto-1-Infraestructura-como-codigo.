@@ -27,3 +27,10 @@ guestbook_db_host: "mariadb.example.org"
 guestbook_db_user: "guestbook_user"
 guestbook_db_password: "guestbook_pass"
 guestbook_db_name: "guestbook_db"
+
+#Variables biblioteca
+
+biblioteca_db_host: "mariadb.biblioteca.org"
+biblioteca_db_user: "marina"
+biblioteca_db_password: "marina123"
+biblioteca_db_name: "biblioteca_db"

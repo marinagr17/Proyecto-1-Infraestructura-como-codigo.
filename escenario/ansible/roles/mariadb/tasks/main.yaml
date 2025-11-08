@@ -49,3 +49,4 @@
     line: 'bind-address = 0.0.0.0'
     state: present
   notify: restart mariadb
+

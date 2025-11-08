@@ -1,0 +1,22 @@
+##################
+####biblioteca###
+#################
+- name: Crear base de datos
+  community.mysql.mysql_db:
+    name: "{{ biblioteca_db_name }}"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Copiar esquema biblioteca.sql al servidor MariaDB
+  ansible.builtin.copy:
+    src: biblioteca.sql
+    dest: /home/ubuntu/biblioteca.sql
+
+- name: Crear usuario y otorgar privilegios
+  community.mysql.mysql_user:
+    name: "{{ biblioteca_db_user }}"
+    password: "{{ biblioteca_db_password }}"
+    host: "%"
+    priv: "{{ biblioteca_db_name }}.*:ALL"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
