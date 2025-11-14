@@ -10,11 +10,18 @@
 #  git:
 #    repo: "{{ repo_url }}"
 #    dest: "{{ document_root }}"
-#    version: master
-#    force: yes
-#    update: yes
+#    version: main
+#    update: no  
 #  become: true
 #  become_user: www-data
+
+#fallo de ruta
+- name: Reemplazar base_url en la configuración de la Biblioteca
+  replace:
+    path: /var/www/biblioteca/Config/Config.php
+    regexp: 'http://localhost/biblio/'
+    replace: '{{ app_url }}'
+
 
 #Permisos
 - name: Ajustar permisos de la aplicación
@@ -22,8 +29,36 @@
     path: "{{ document_root }}"
     owner: www-data
     group: www-data
-    state: directory
     recurse: yes
+    state: directory
+
+#instalar php-fpm
+- name: Instalar PHP-FPM
+  apt:
+    name:
+      - php8.4-fpm
+      - php8.4-mysql
+      - php8.4-cli
+    state: present
+    update_cache: yes
+
+- name: Asegurar que php-fpm está activo
+  service:
+    name: php8.4-fpm
+    state: started
+    enabled: yes
+
+
+#modulos necesarios
+- name: Habilitar módulos necesarios para PHP-FPM
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - proxy
+    - proxy_fcgi
+  notify: restart apache2
+
 
 #virtualhost
 - name: Crear VirtualHost para biblioteca
