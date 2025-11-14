@@ -1,0 +1,41 @@
+#instalar git
+- name: Instalar git
+  apt:
+    name: git
+    state: present
+  become: true
+
+#clonar repo
+#- name: Clonar la aplicación desde GitHub
+#  git:
+#    repo: "{{ repo_url }}"
+#    dest: "{{ document_root }}"
+#    version: master
+#    force: yes
+#    update: yes
+#  become: true
+#  become_user: www-data
+
+#Permisos
+- name: Ajustar permisos de la aplicación
+  file:
+    path: "{{ document_root }}"
+    owner: www-data
+    group: www-data
+    state: directory
+    recurse: yes
+
+#virtualhost
+- name: Crear VirtualHost para biblioteca
+  template:
+    src: etc/biblioteca/vhost2.j2
+    dest: /etc/apache2/sites-available/biblioteca.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+#habilitar biblioteca
+- name: Habilitar sitio biblioteca
+  command: a2ensite biblioteca.conf
+  notify: restart apache2
+

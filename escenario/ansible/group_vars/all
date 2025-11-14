@@ -34,3 +34,8 @@ biblioteca_db_host: "mariadb.biblioteca.org"
 biblioteca_db_user: "marina"
 biblioteca_db_password: "marina123"
 biblioteca_db_name: "biblioteca_db"
+app_url: "http://biblioteca.biblioteca.org"
+
+#variable repo github
+document_root: /var/www/biblioteca
+repo_url: https://github.com/VidaInformatico/Sistema-de-biblioteca-basico-php-8-y-mysql.git

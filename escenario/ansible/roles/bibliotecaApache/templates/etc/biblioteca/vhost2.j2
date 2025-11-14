@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+    ServerName biblioteca.local
+    DocumentRoot {{ document_root }}
+
+    <Directory {{ document_root }}>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # Alias para Assets
+    Alias /css {{ document_root }}/Assets/css
+    Alias /js {{ document_root }}/Assets/js
+    Alias /img {{ document_root }}/Assets/img
+    Alias /fonts {{ document_root }}/Assets/fonts
+
+    <Directory {{ document_root }}/Assets>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/biblioteca_error.log
+    CustomLog ${APACHE_LOG_DIR}/biblioteca_access.log combined
+</VirtualHost>
