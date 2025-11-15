@@ -30,7 +30,7 @@ guestbook_db_name: "guestbook_db"
 
 #Variables biblioteca
 
-biblioteca_db_host: "mariadb.biblioteca.org"
+biblioteca_db_host: "192.168.201.3"
 biblioteca_db_user: "marina"
 biblioteca_db_password: "marina123"
 biblioteca_db_name: "biblioteca_db"

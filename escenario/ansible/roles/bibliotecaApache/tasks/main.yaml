@@ -1,19 +1,23 @@
-#instalar git
-- name: Instalar git
-  apt:
-    name: git
-    state: present
+#clonar repo
+- name: Clonar la aplicación desde GitHub
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ document_root }}"
+    version: master 
+    force: yes
+    update: yes
   become: true
 
-#clonar repo
-#- name: Clonar la aplicación desde GitHub
-#  git:
-#    repo: "{{ repo_url }}"
-#    dest: "{{ document_root }}"
-#    version: main
-#    update: no  
-#  become: true
-#  become_user: www-data
+#permisos
+
+- name: Ajustar permisos de la aplicación
+  file:
+    path: "{{ document_root }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
+    mode: '0755' 
+  become: true
 
 #fallo de ruta
 - name: Reemplazar base_url en la configuración de la Biblioteca
@@ -22,15 +26,15 @@
     regexp: 'http://localhost/biblio/'
     replace: '{{ app_url }}'
 
-
-#Permisos
-- name: Ajustar permisos de la aplicación
-  file:
-    path: "{{ document_root }}"
+#config.php
+- name: Copiar configuración de la aplicación biblioteca
+  template:
+    src: config.php.j2
+    dest: /var/www/biblioteca/Config/Config.php
     owner: www-data
     group: www-data
-    recurse: yes
-    state: directory
+    mode: '0644'
+
 
 #instalar php-fpm
 - name: Instalar PHP-FPM
